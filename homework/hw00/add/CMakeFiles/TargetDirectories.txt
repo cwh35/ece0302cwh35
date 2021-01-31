@@ -1,0 +1,5 @@
+/home/cwh35/starter-code-ece0302/homework/hw00/add/CMakeFiles/rebuild_cache.dir
+/home/cwh35/starter-code-ece0302/homework/hw00/add/CMakeFiles/edit_cache.dir
+/home/cwh35/starter-code-ece0302/homework/hw00/add/CMakeFiles/test.dir
+/home/cwh35/starter-code-ece0302/homework/hw00/add/CMakeFiles/submission.dir
+/home/cwh35/starter-code-ece0302/homework/hw00/add/CMakeFiles/add-tests.dir

@@ -2,8 +2,12 @@
 #define STUDENT_BAG_HPP
 
 #include <cstdlib>
+#include <vector>
 
-template<typename T> class Bag{
+template<typename T> class Bag
+{
+private:
+  std::vector<T> bag;
 public:
 
   Bag();

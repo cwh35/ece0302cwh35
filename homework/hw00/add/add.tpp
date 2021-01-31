@@ -11,5 +11,7 @@ template <typename T> Add<T>::~Add() {}
 template <typename T> Abstract_Operator<T>::~Abstract_Operator() {}
 
 template <typename T> T Add<T>::call(T arg1, T arg2) const { 
-  // TODO
+  int sum;
+  sum = arg1 + arg2;
+  return sum;
 }
