@@ -54,3 +54,16 @@ TEST_CASE("Test for if the bag contains a certain item", "[Test5]")
   Bag.add(59);
   REQUIRE(Bag.contains(22));
 }
+TEST_CASE("Test for removing an item", "[Test6]")
+{
+  Bag<int> Bag;
+  Bag.add(10);
+  Bag.add(5);
+  Bag.add(22);
+  Bag.add(59);
+  Bag.add(9);
+  Bag.add(7);
+  Bag.add(4);
+  Bag.add(9);
+  REQUIRE(Bag.remove(10));
+}

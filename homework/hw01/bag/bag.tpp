@@ -29,21 +29,20 @@ template <typename T> bool Bag<T>::add(const T& entry)
     bag.push_back(entry);
         return true;
 }
-/*
+
 template <typename T> bool Bag<T>::remove(const T& entry) 
 { 
-    bag.erase(at(entry));
-    
-    if(bag[entry])
+    for(int i=0; i<bag.size(); i++)
     {
-        return true;
+        if (bag[i] == entry)
+        {
+            bag.erase(i+bag.begin());
+            return true;
+        }
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
-*/
+
 
 template <typename T> void Bag<T>::clear() 
 {
