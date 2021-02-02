@@ -10,9 +10,9 @@ Bitset::Bitset()
 }
 Bitset::Bitset(intmax_t size)
 {
-    if (size > 0)
+    if (size < 0)
     {
-        isValid = true;
+        isValid = false;
     }
     //sets size of array to parameter
     BitArray[size]; 
@@ -47,7 +47,33 @@ bool Bitset::good() const
 {
     return isValid;
 }
+Bitset::~Bitset()
+{
+    delete [] BitArray; //Deletes bit array
+}
 intmax_t Bitset::size() const
 {
-    
+    return arraySize; //Returns array size
+}
+void Bitset::set(intmax_t index)
+{
+    if ((index < 0) || (index > arraySize))
+    {
+        isValid = false;
+    }
+    if (index<arraySize)
+    {
+        BitArray[index] = 1; //Sets only the number at index to 1
+    }
+}
+void Bitset::reset(intmax_t index)
+{
+    if ((index < 0) || (index > arraySize))
+    {
+        isValid = false;
+    }
+    if (index<arraySize)
+    {
+        BitArray[index] = 0; //Sets only the number at index to 0
+    }
 }

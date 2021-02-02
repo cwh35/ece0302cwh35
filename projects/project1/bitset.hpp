@@ -25,10 +25,10 @@ public:
   // Returns the size of the bitset
   intmax_t size() const;
 
-  // TODO COMMENT
+  // Returns the boolean variable "isValid" set equal to true
   bool good() const;
 
-  // TODO COMMENT
+  // Sets nth bit to 1, tests if index is in the range [0, N-1]
   void set(intmax_t index);
 
   // TODO COMMENT
@@ -46,6 +46,7 @@ public:
 private:
   int *BitArray;
   bool isValid;
+  int arraySize;
 };
 
 #endif
