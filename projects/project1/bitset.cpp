@@ -77,3 +77,33 @@ void Bitset::reset(intmax_t index)
         BitArray[index] = 0; //Sets only the number at index to 0
     }
 }
+void Bitset::toggle(intmax_t index)
+{
+    if ((index < 0) || (index > arraySize))
+    {
+        isValid = false;
+    }
+    if (BitArray[index] == 1) //Toggles the nth bit
+    {
+        BitArray[index] = 0;
+    }
+    else
+    {
+        BitArray[index] = 1;
+    }
+}
+ bool Bitset::test(intmax_t index)
+ {
+    if ((index < 0) || (index > arraySize))
+    {
+        isValid = false;
+    }
+     if (BitArray[index] == 1) 
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+ }

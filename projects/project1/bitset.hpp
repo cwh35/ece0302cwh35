@@ -31,13 +31,13 @@ public:
   // Sets nth bit to 1, tests if index is in the range [0, N-1]
   void set(intmax_t index);
 
-  // TODO COMMENT
+  // Sets nth bit to 0, tests if index is in the range [0, N-1]
   void reset(intmax_t index);
 
-  // TODO COMMENT
+  // Toggles the nth bit from 0 to 1 or 1 to 0, tests if index is in the range [0, N-1]
   void toggle(intmax_t index);
 
-  // TODO COMMENT
+  // Returns true if nth bit is 1, false if 0, tests if index is in the range [0, N-1]
   bool test(intmax_t index);
 
   // TODO COMMENT
