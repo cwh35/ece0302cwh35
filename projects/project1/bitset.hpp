@@ -1,25 +1,28 @@
 #ifndef BITSET_HPP
 #define BITSET_HPP
 
+#include <string>
+
 class Bitset{
 public:
 
-  // TODO COMMENT
+  // Default constructor that creates a valid bitset of size 8
+  // All bits are set to 0
   Bitset();
 
-  // TODO COMMENT
+  // Constructor that creates a bitset with the inputted size as a parameter
   Bitset(intmax_t size);
 
-  // TODO COMMENT
+  // Assigns an integer value to a single character, checks if the character is 0 or 1
   Bitset(const std::string & value);
 
-  // TODO COMMENT
+  // Destructor - Destroys the array after the code is finished
   ~Bitset();
 
   Bitset(const Bitset & ) = delete;
   Bitset & operator=(const Bitset &) = delete;
 
-  // TODO COMMENT
+  // Returns the size of the bitset
   intmax_t size() const;
 
   // TODO COMMENT
@@ -41,8 +44,8 @@ public:
   std::string asString() const;
 
 private:
-
-  // TODO
+  int *BitArray;
+  bool isValid;
 };
 
 #endif
