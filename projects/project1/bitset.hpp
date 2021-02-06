@@ -40,7 +40,7 @@ public:
   // Returns true if nth bit is 1, false if 0, tests if index is in the range [0, N-1]
   bool test(intmax_t index);
 
-  // TODO COMMENT
+  // Converts the bitset to a string value of "0" or "1" and returns it
   std::string asString() const;
 
 private:
