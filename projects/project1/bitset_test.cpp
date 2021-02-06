@@ -19,7 +19,7 @@ TEST_CASE( "Test bitset construction with parameter", "[bitset2]")
     REQUIRE(b.size() == 6);
     REQUIRE(b.good());
 }
-TEST_CASE("Test bitset consturction with strings", "[bitset3]")
+TEST_CASE("Test bitset construction with strings", "[bitset3]")
 {
     Bitset b("111000");
     REQUIRE(b.size() == 6);
