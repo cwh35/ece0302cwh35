@@ -2,8 +2,8 @@
 #define STUDENT_BAG_HPP
 
 #include <cstdlib>
-
-template<typename T> class Bag{
+#include "abstract_bag.hpp"
+template<typename T> class Bag : public AbstractBag<T>{
 public:
 
   Bag();
