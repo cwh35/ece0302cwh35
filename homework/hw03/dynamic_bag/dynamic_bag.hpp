@@ -42,7 +42,8 @@ public:
 
 private:
 
-  // TODO
+   T *dynamBag;
+   int arraySize; 
 };
 
 #include "dynamic_bag.tpp"

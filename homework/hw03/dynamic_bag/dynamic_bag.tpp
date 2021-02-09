@@ -1,14 +1,23 @@
 #include "dynamic_bag.hpp"
 
 template<typename T>
-DynamicBag<T>::DynamicBag() {}
+DynamicBag<T>::DynamicBag() 
+{
+  dynamBag = new T[arraySize];
+}
   
 
 template<typename T>
-DynamicBag<T>::DynamicBag(const DynamicBag& x){}
+DynamicBag<T>::DynamicBag(const DynamicBag& x)
+{
+  dynamBag = new T[x];
+}
     
 template<typename T>
-DynamicBag<T>::~DynamicBag(){}
+DynamicBag<T>::~DynamicBag()
+{
+  delete [] dynamBag;
+}
   
 template<typename T>
 DynamicBag<T>& DynamicBag<T>::operator=(DynamicBag<T>& x)
