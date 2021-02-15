@@ -41,8 +41,9 @@ public:
   bool contains(const T& item) const;
 
 private:
-
-  // TODO
+  int arraySize = 25;
+  T limitedBag[25];
+  int index;
 };
 
 #include "limited_size_bag.tpp"
