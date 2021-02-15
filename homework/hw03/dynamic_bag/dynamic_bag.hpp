@@ -43,7 +43,8 @@ public:
 private:
 
    T *dynamBag;
-   int arraySize; 
+   int arraySize = 999999999; 
+   int index;
 };
 
 #include "dynamic_bag.tpp"
