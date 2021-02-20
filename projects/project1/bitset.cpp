@@ -32,10 +32,10 @@ Bitset::Bitset(intmax_t size)
 }
 Bitset::Bitset(const std::string & value)
 {
-    int arrayLength = value.length();
-    BitArray = new int[arrayLength];
+    arraySize = value.length();
+    BitArray = new int[arraySize];
     
-    for(int i=0; i<arrayLength; i++) //For loop to assign values in the string to 1 or 0
+    for(int i=0; i<arraySize; i++) //For loop to assign values in the string to 1 or 0
     {
         if (value[i] == '0')
         {
