@@ -110,8 +110,58 @@ bool FindPalindrome::cutTest1(const vector<string> & stringVector)
 bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
                               const vector<string> & stringVector2)
 {
-	// TODO need to implement this...
-	return false;
+	locale loc;
+	int counter = 0; //Counts the amount of characters in a vector
+	int freq[26] = {0}; //Counts the frequency of a character in a string
+	int freq2[26] = {0}; 
+	int j = 0, k;
+	vector<string> dummyVec1 = stringVector1;
+	vector<string> dummyVec2 = stringVector2;
+
+
+	for (int i=0; i<dummyVec1.size(); i++) //For loop for first half of vector
+	{
+		convertToLowerCase(dummyVec1[i]);
+		j=0;
+
+		while (dummyVec1[i][j] != '\0')//runs through characters til the end of string
+		{
+			if(dummyVec1[i][j] >= 'a' && dummyVec1[i][j] <= 'z')//Checks if it is alpha character
+			{
+				k = dummyVec1[i][j] - 'a';
+				++freq[k];//increase freq count for letter
+			}
+			++j;//loops to next character
+		}
+	}
+	for (int i=0; i<dummyVec2.size(); i++) //For Loop for the second half of vector
+	{
+		convertToLowerCase(dummyVec2[i]);
+		j=0;
+
+		while (dummyVec2[i][j] != '\0')//runs through characters til the end of string
+		{
+			if(dummyVec2[i][j] >= 'a' && dummyVec2[i][j] <= 'z')//Checks if it is alpha character
+			{
+				k = dummyVec2[i][j] - 'a';
+				++freq2[k];//increase freq count for letter
+			}
+			++j;//loops to next character
+		}
+	}
+
+	for(int i = 0; i < 26; i++)
+	{
+		if(freq[i] != freq2[i]) //Checking for only 1 odd letter
+		{
+			counter++; //Increment counter if odd letter is found
+		}
+	}
+	if(counter > 1) //Checking for only 1 odd letter
+	{
+		return false;
+	}
+	return true;
 }
 
 bool FindPalindrome::add(const string & value)

@@ -23,3 +23,9 @@ TEST_CASE( "Test CutTest1", "[FindPalindrome]" )
 	REQUIRE(b.cutTest1({"kayak"}));
 	REQUIRE(b.cutTest1({"odd", "even", "never", "or"}));
 }
+TEST_CASE( "Test CutTest2", "[FindPalindrome]" )
+{
+	FindPalindrome b;
+	REQUIRE(b.cutTest2({"kayak", "han"},{"kayak", "nah"}));
+	REQUIRE(b.cutTest2({"race", "car"},{ "ear", "racc"}));
+}

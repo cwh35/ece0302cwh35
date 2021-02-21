@@ -43,8 +43,10 @@ public:
 
 private:
 
-  // TODO
-  
+  void incrArraySize(); //Function to resize an array
+  T *array;
+  int elements; //keeps track of how many elements are in the array
+  int size; //keeps track of the size of the array
 };
 
 #include "array_list.tpp"
