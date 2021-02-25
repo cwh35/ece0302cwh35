@@ -26,8 +26,33 @@ static void convertToLowerCase(string & value)
 void FindPalindrome::recursiveFindPalindromes(vector<string>
         candidateStringVector, vector<string> currentStringVector)
 {
-	// TODO need to implement this recursive function!
-	return;
+	string sentTemp;
+
+	if (currentStringVector.size() == 0)
+	{
+		sentTemp = SentToStr(candidateStringVector);
+		if(isPalindrome(sentTemp))
+		{
+			pallyCounter++;
+			pallySentences.push_back(candidateStringVector);
+		}
+	}
+	
+	vector<string> CurrTemp, CandTemp; //temporary variables for the string vectors
+
+	for(int i=0; i<currentStringVector.size(); i++)
+	{
+		CurrTemp = currentStringVector;
+		CandTemp = candidateStringVector;
+		CandTemp.push_back(CurrTemp[i]);
+		CurrTemp.erase(CurrTemp.begin() + i);
+	
+		if (cutTest2(CandTemp, CurrTemp))
+		{
+			recursiveFindPalindromes(CandTemp, CurrTemp);
+		}
+	}
+	
 }
 
 // private function to determine if a string is a palindrome (given, you
@@ -52,6 +77,7 @@ bool FindPalindrome::isPalindrome(string currentString) const
 FindPalindrome::FindPalindrome()
 {
 	pallyVector.resize(0); //Reset the size of the vector
+	pallyCounter = 0;
 }
 
 FindPalindrome::~FindPalindrome()
@@ -61,12 +87,14 @@ FindPalindrome::~FindPalindrome()
 
 int FindPalindrome::number() const
 {
-	return numOfPallys; //Returns the number of palindromes
+	return pallyCounter; //Returns the number of palindromes
 }
 
 void FindPalindrome::clear()
 {
-	pallyVector.clear(); //Clears the vector
+	pallyVector.erase(pallyVector.begin(), pallyVector.end()); //Clears the vector
+	pallySentences.erase(pallySentences.begin(), pallySentences.end());
+	pallyCounter = 0;
 }
 
 bool FindPalindrome::cutTest1(const vector<string> & stringVector)
@@ -96,7 +124,8 @@ bool FindPalindrome::cutTest1(const vector<string> & stringVector)
 
 	for(int i = 0; i < 26; i++)
 	{
-		if(freq[i]%2 != 0){
+		if(freq[i]%2 != 0) //Checks if there is an even or odd amount of characters
+		{
 			counter++;
 		}
 	}
@@ -111,10 +140,10 @@ bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
                               const vector<string> & stringVector2)
 {
 	locale loc;
-	int counter = 0; //Counts the amount of characters in a vector
 	int freq[26] = {0}; //Counts the frequency of a character in a string
 	int freq2[26] = {0}; 
-	int j = 0, k;
+	int j = 0, k; //j represents the position of the character
+	int sizeOfChar = 0, sizeOfChar2 = 0; //size of characters
 	vector<string> dummyVec1 = stringVector1;
 	vector<string> dummyVec2 = stringVector2;
 
@@ -131,6 +160,7 @@ bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
 				k = dummyVec1[i][j] - 'a';
 				++freq[k];//increase freq count for letter
 			}
+			sizeOfChar++;
 			++j;//loops to next character
 		}
 	}
@@ -146,27 +176,49 @@ bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
 				k = dummyVec2[i][j] - 'a';
 				++freq2[k];//increase freq count for letter
 			}
+			sizeOfChar2++;
 			++j;//loops to next character
 		}
 	}
 
-	for(int i = 0; i < 26; i++)
+	if (sizeOfChar > sizeOfChar2)
 	{
-		if(freq[i] != freq2[i]) //Checking for only 1 odd letter
+		for(int i = 0; i < 26; i++)
 		{
-			counter++; //Increment counter if odd letter is found
+			if (freq[i] < freq2[i])
+			{
+				return false;
+			}
 		}
 	}
-	if(counter > 1) //Checking for only 1 odd letter
+	else if(sizeOfChar < sizeOfChar2)
 	{
-		return false;
+		for(int i = 0; i < 26; i++)
+		{
+			if (freq[i] > freq2[i])
+			{
+				return false;
+			}
+		}
 	}
+	else
+	{
+		for(int i = 0; i < 26; i++)
+		{
+			if (freq[i] != freq2[i])
+			{
+				return false;
+			}
+		}
+	}
+	
 	return true;
 }
 
 bool FindPalindrome::add(const string & value)
 {
 	string newValue = value;
+	vector<string> tempVec = pallyVector;
 
 	locale loc;
 	convertToLowerCase(newValue);
@@ -181,28 +233,42 @@ bool FindPalindrome::add(const string & value)
 			return false;
 		}	
 	}
-	for (int i=0; i<pallyVector.size(); i++)
+	for (int i=0; i<tempVec.size(); i++)
 	{
-		convertToLowerCase(pallyVector[i]);
-		if (newValue == pallyVector[i]) //Checks for duplicate strings
+		convertToLowerCase(tempVec[i]);
+		if (newValue == tempVec[i]) //Checks for duplicate strings
 		{
 			return false; //Returns false if above condition is true
 		}
 	}
-	pallyVector.push_back(newValue); //Adds string to the vector
+	pallyVector.push_back(value); //Adds string to the vector
+	pallyCounter = 0;
+	pallySentences.erase(pallySentences.begin(), pallySentences.end());
+	
+	if (cutTest1(pallyVector))
+	{
+		recursiveFindPalindromes({}, pallyVector);
+	}	
+	else
+	{
+		pallySentences = {{}};
+		pallyCounter= 0;
+	}
+	
 	return true;
 	
 }
 
 bool FindPalindrome::add(const vector<string> & stringVector)
 {
-	vector<string>newValue = stringVector;
-
-	for (int i=0; i<stringVector.size(); i++) //Checks if palindrome contains acceptable characters
+	vector<string>newValue = stringVector; //make a not constant vector and set it equal to the parameter
+	vector<string>strVectorCopy = stringVector;
+	vector<string>strVectorComparison = pallyVector; //make a comparison vector for pallyVector
+	for (int i=0; i<newValue.size(); i++) //Checks if palindrome contains acceptable characters
 	{
-		for(int j = 0; j < stringVector[i].size(); j++)
+		for(int j = 0; j < newValue[i].size(); j++)
 		{
-			if (stringVector[i][j] <= 'z' && stringVector[i][j] >= 'a' || stringVector[i][j] <='Z' && stringVector[i][j] >= 'A')
+			if (newValue[i][j] <= 'z' && newValue[i][j] >= 'a' || newValue[i][j] <='Z' && newValue[i][j] >= 'A')
 			{
 				//Empty if to check valid characters
 			}
@@ -211,28 +277,42 @@ bool FindPalindrome::add(const vector<string> & stringVector)
 				return false;
 			}
 		}	
-	
-		for (int j=0; j<newValue.size(); j++) //Run through the vector
+	convertToLowerCase(newValue[i]); 
+		for(int k = 0; k < strVectorComparison.size(); k++)
 		{
-			convertToLowerCase(newValue[j]); 
-			for(int k = 0; k < pallyVector.size(); k++)
+			convertToLowerCase(strVectorComparison[k]);
+			if (newValue[k] == strVectorComparison[k]) //Checks for duplicate strings
 			{
-				convertToLowerCase(pallyVector[k]);
-				if (newValue[j] == pallyVector[k]) //Checks for duplicate strings
-				{
-					return false; //Returns false if above condition is true
-				}
+				return false; //Returns false if above condition is true
 			}
 		}
-		pallyVector.push_back(stringVector[i]); //Adds vector of strings to the vector
+		pallyVector.push_back(strVectorCopy[i]); //Adds vector of strings to the vector
 	}
+	//Call cuttest1 to see if the new vector is valid
+	if (cutTest1(pallyVector))
+	{
+		recursiveFindPalindromes({}, pallyVector);
+	}	
+	else
+	{
+		pallySentences = {{}};
+		pallyCounter= 0;
+	}
+	
 	return true;
 }
 
 vector< vector<string> > FindPalindrome::toVector() const
 {
-	// TODO need to implement this...
-	vector<vector<string>> returnThingie;
-	return returnThingie;
+	return pallySentences;
+}
+string FindPalindrome::SentToStr(vector<string> vecToStr)
+{
+	string test; 
+	for(int i = 0; i<vecToStr.size(); i++) //This for loop combines all strings into one word
+	{
+		test = test + vecToStr[i];
+	}
+	return test;
 }
 

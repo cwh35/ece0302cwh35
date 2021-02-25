@@ -10,6 +10,9 @@ private:
 	// private stuff that you define and implement goes here...
 	std::vector<std::string>pallyVector;
 	int numOfPallys;
+	int pallyCounter; //counts how many palindromes in the vector
+	std::vector<std::vector<std::string>>pallySentences;
+	std::string SentToStr(std::vector<std::string>);
 	// ...
 	
 	// private stuff that you are given or is specified in the project
