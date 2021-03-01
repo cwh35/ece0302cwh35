@@ -41,8 +41,26 @@ bool isPost(string s) {
   return (firstChar == 0);
 }
 
-void convert(string &postfix, string &prefix) {
+void convert(string &postfix, string &prefix) 
+{
+  int post_length = postfix.size();
+  char ch = postfix[post_length-1];
+  postfix.pop_back();
 
-  // TODO
+  string temp;
+
+  if(!isoperator(ch))
+  {
+    prefix = prefix + ch;
+  }
+  else
+  {
+    prefix = prefix + ch;
+    convert(postfix, temp);
+    convert(postfix, prefix);
+    prefix = prefix + temp;
+  }
   
+
+
 }
