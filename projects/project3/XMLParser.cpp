@@ -24,7 +24,7 @@ XMLParser::~XMLParser()
 	delete parseStack;
 	elementNameBag = nullptr;
 	parseStack = nullptr;
-	tokenizedInputVector.swap(tokenizedInputVector);
+	tokenizedInputVector.clear();
 }  // end destructor
 
 // TODO: Implement the tokenizeInputString method
@@ -49,7 +49,6 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 			if(inputString[i] == '?')
 			{
 				i++;
-				//tag_Name = deleteAttributes(tag_Name);
 				temp.tokenType = DECLARATION;
 				while(inputString[i] != '?' && inputString[i+1] != '>')
 				{
@@ -134,6 +133,10 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 			}
 			content = "";
 		}
+	}
+	if(temp.tokenType == CONTENT && (temp.tokenString == " " || temp.tokenString == ""))
+	{
+		tokenizedInputVector.pop_back();
 	}
 	return true;
 }  // end
@@ -231,6 +234,7 @@ bool XMLParser::containsElementName(const std::string &inputString) const
 {
 	return elementNameBag->contains(inputString);
 	return false;
+	
 }
 
 // TODO: Implement the frequencyElementName method
