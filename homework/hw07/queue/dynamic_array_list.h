@@ -20,7 +20,8 @@ public:
   // copy assignment
   DynamicArrayList& operator=(DynamicArrayList x);
 
-  void swap(DynamicArrayList& x, DynamicArrayList& y);
+  // swap with the input list
+  void swap(DynamicArrayList& y);
   
   // determine if a list is empty
   bool isEmpty();
@@ -46,7 +47,9 @@ public:
 private:
 
   T * data;
+  // number of elements that can be added before reallocation.
   std::size_t capacity;
+  // Current allocated memory size.
   std::size_t size;
   
 };
