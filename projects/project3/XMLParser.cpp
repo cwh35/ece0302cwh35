@@ -30,7 +30,6 @@ XMLParser::~XMLParser()
 // TODO: Implement the tokenizeInputString method
 bool XMLParser::tokenizeInputString(const std::string &inputString)
 {
-	
 	std::string content = "", tag_Name = "";
 	TokenStruct temp; //temporary variable for TokenStruct
 	int i = 0; //counter variable for the while loop
@@ -41,7 +40,6 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 
 	while(i < inputString.size()) //Runs through the entire string
 	{
-		
 		if(inputString[i] == '<') //Checks if string contains <
 		{
 			temp.tokenType == START_TAG;
@@ -57,9 +55,9 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 				}
 				i = i+2; //To skip past the question mark and angle bracket
 				
-				temp.tokenString = tag_Name; 
-				
-				tokenizedInputVector.push_back(temp);
+				elementNameBag->add(tag_Name); //Adds tag_name to bag 
+				temp.tokenString = tag_Name; //sets tag_name equal to the token string
+				tokenizedInputVector.push_back(temp); //push tag_name into the vector
 				tag_Name = "";
 			}
 			else if(inputString[i] == '/')//End tag
@@ -73,7 +71,6 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 				}
 				i++;
 				
-				tag_Name = deleteAttributes(tag_Name); //deleting all elements after " "
 				if(!checkSpecialChar(tag_Name))//Check if the tagname is valid
 				{
 					clear();
@@ -81,9 +78,13 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 				}
 				temp.tokenString = tag_Name; 				
 				tokenizedInputVector.push_back(temp);
-				tag_Name = "";
+				tag_Name = ""; //Reset tag name
 			}
 			else{//Start and empty tag
+				if(inputString[i] == ' ')
+				{
+					return false; //if the start tag has a space
+				}
 				while(inputString[i] != '>' && inputString[i] != '/')
 				{	
 					temp.tokenType = START_TAG;
@@ -115,13 +116,22 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 		}
 		else //if it's any other character other than the ones above, it's content
 		{
-			
+			int p = 0;
+			bool status = false;
 			while(inputString[i] != '<' && i<inputString.size())
 			{
 				content = content + inputString[i];
 				i++;
 			}
-			if(content == "\n" || content == " ")
+			while(p < content.size())
+			{
+				if(content[p] != ' ' && content[p] != '\n')
+				{
+					status = true;
+				}
+				p++;
+			}
+			if(!status)
 			{
 				content = "";
 			}
@@ -156,12 +166,13 @@ static std::string deleteAttributes(std::string input)
 	}
 	return input;
 }
+//Function to check if the string contains any invalid characters
 bool checkSpecialChar(std::string inputString)
 {
 	std::string invalidChar = "!\"#$%&'()*+,/;<=>?@[\\]^`{|}~";
 	std::string invalidNum = "0123456789-,.";
 	bool valid = true;
-	for(int i=0;i<inputString.size();i++)
+	for(int i=0;i<invalidNum.size();i++)
 	{
 		if(invalidNum[i] == inputString[0]) //Checks if the first elements is any of the elements from invalidNum
 		{
@@ -184,7 +195,7 @@ bool checkSpecialChar(std::string inputString)
 // TODO: Implement the parseTokenizedInput method here
 bool XMLParser::parseTokenizedInput()
 {
-	if(tokenizedInputVector.size()==0 || tokenizedInputVector.back().tokenType == 4)
+	if(tokenizedInputVector.size()==0 || tokenizedInputVector.back().tokenType == 4) //if size = 0, or last element is content
 	{
 		return false;
 	}
@@ -198,18 +209,18 @@ bool XMLParser::parseTokenizedInput()
 		}
 		else if (tokenizedInputVector[i].tokenType == 2)
 		{
-			if (parseStack->peek() == tokenizedInputVector[i].tokenString)
+			if(parseStack->size() == 0) //If an end tag comes before a start tag
 			{
-				parseStack->pop();
+				return false; 
 			}
-			else
+			if (parseStack->peek() == tokenizedInputVector[i].tokenString) //if top of stack matches tag
 			{
-				parseStack->push(tokenizedInputVector[i].tokenString);
+				parseStack->pop(); //Pop end tag so you don't have duplicate tag names
 			}
 		}
 		i++; //Increment the counter for the while loop
 	}
-	if(parseStack->isEmpty() == false)
+	if(parseStack->isEmpty() == false) //if stack is not empty, return false
 	{
 		return false;
 	}
@@ -233,7 +244,7 @@ vector<TokenStruct> XMLParser::returnTokenizedInput() const
 bool XMLParser::containsElementName(const std::string &inputString) const
 {
 	return elementNameBag->contains(inputString);
-	return false;
+	throw logic_error("Failed tokenizer or parse");
 	
 }
 
@@ -242,7 +253,7 @@ int XMLParser::frequencyElementName(const std::string &inputString) const
 {
 	if(tokenizedInputVector.size() == 0)
 	{
-		return -1;
+		throw logic_error("Failed tokenizer or parse");
 	}
 	return elementNameBag->getFrequencyOf(inputString);
 }

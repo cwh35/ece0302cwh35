@@ -76,6 +76,27 @@ TEST_CASE( "Test XMLParser tokenizeInputString", "[XMLParser]" )
 		success = myXMLParser.tokenizeInputString(testString);
 		REQUIRE(success);
 		myXMLParser.clear();
+
+		testString = "<?xml-script version=\"1.0\"?>";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(success);
+		myXMLParser.clear();
+
+		testString = "This is totally content right now";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(success);
+		myXMLParser.clear();
+
+		testString = "Content strikes again wooooo";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(success);
+		myXMLParser.clear();
+
+		testString = "<bagelbites>Best breakfast food, no competition</bagelbites> ";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(myXMLParser.returnTokenizedInput().size() == 3);
+		REQUIRE(success);
+		myXMLParser.clear();
 }
 TEST_CASE( "Test XMLParser tokenizeInputString - failing", "[XMLParser - failing]" )
 {
@@ -101,6 +122,21 @@ TEST_CASE( "Test XMLParser tokenizeInputString - failing", "[XMLParser - failing
 
 		myXMLParser; 
 		testString = "";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(!success);
+		myXMLParser.clear();
+
+		testString = "<.test>ramen is very good</test>";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(!success);
+		myXMLParser.clear();
+
+		testString = "<test>ramen is very good</1test>";
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(!success);
+		myXMLParser.clear();
+
+		testString = "<5test/>ramen is very good</test>";
 		success = myXMLParser.tokenizeInputString(testString);
 		REQUIRE(!success);
 		myXMLParser.clear();
@@ -133,8 +169,6 @@ TEST_CASE("Testing the getFrequencyOf function", "[XMLParser3]")
 	REQUIRE(myXMLParser.containsElementName("donut"));
 	REQUIRE(myXMLParser.frequencyElementName("donut") ==1);
 	myXMLParser.clear();
-
-	REQUIRE(myXMLParser.frequencyElementName("donut") == -1);
 }		
 TEST_CASE("Testing the clear function", "[XMLParser4]")
 {
@@ -150,6 +184,16 @@ TEST_CASE("Testing the clear function", "[XMLParser4]")
 	REQUIRE(!myXMLParser.containsElementName("pizza"));
 	myXMLParser.clear();
 	REQUIRE(!myXMLParser.containsElementName("donut"));
+}
+TEST_CASE( "Testing an XML line : end tag comes before start tag", "[XMLParser5]")
+{
+	XMLParser myXMLParser;
+	string testString;
+	bool success;
+	testString = "</window>This window tag is in the wrong spot<window>";
+	success = myXMLParser.tokenizeInputString(testString);
+	REQUIRE(success);
+	REQUIRE(!myXMLParser.parseTokenizedInput());
 }
 
 
