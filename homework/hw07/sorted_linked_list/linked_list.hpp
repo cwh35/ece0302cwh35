@@ -47,8 +47,8 @@ public:
 
 private:
 
-  //TODO
-  
+  Node<T>* head;
+  int size; 
 };
 
 #include "linked_list.tpp"

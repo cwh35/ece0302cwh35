@@ -40,7 +40,15 @@ std::size_t SortedLinkedList<T>::getLength()
 template <typename T>
 void SortedLinkedList<T>::insert(const T& item)
 {
-  // todo
+   for(int i=0; i<getLength(); i++)
+   {
+     if(item < LinkedList<T>::getEntry(i))
+     {
+       LinkedList<T>::insert(i, item);
+       return;
+     }
+   }
+   LinkedList<T>::insert(getLength(),item);
 }
 
 template <typename T>
@@ -48,15 +56,27 @@ void SortedLinkedList<T>::remove(const T& item)
 {
   if(isEmpty()) throw std::range_error("empty list in remove");
   
-  // todo
+  for(int i=0; i<getLength(); i++)
+   {
+     if(item == LinkedList<T> :: getEntry(i))
+     {
+       LinkedList<T>::remove(i);
+       return;
+     }
+   }
 }
 
 template <typename T>
 void SortedLinkedList<T>::removeAt(std::size_t position)
 {
+  bool valid;
   if(isEmpty()) throw std::range_error("empty list in remove");
   
-  // todo
+  valid = LinkedList<T> :: remove(position);
+  if(valid == false)
+  {
+    throw std::range_error("Invalid Range");
+  }
 }
 
 template <typename T>
@@ -68,12 +88,17 @@ void SortedLinkedList<T>::clear()
 template <typename T>
 T SortedLinkedList<T>::getEntry(std::size_t position)
 {
-  return LinkedList<T>::getEntry(position+1);
+  return LinkedList<T>::getEntry(position);
 }
 
 template <typename T>
 long int SortedLinkedList<T>::getPosition(const T& newValue)
 {
-  // todo
-  return 0;
+  for(int i=0; i<getLength(); i++)
+  {
+    if(LinkedList<T>::getEntry(i) == newValue)
+    {
+      return i;
+    }
+  }
 }

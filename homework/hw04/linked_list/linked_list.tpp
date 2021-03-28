@@ -158,5 +158,5 @@ void LinkedList<T>::setEntry(std::size_t position, const T& newValue)
   {
     post = post->getNext();
   }
-  return post->setItem(newValue);
+  post->setItem(newValue);
 }
