@@ -128,7 +128,6 @@ template <typename T> void ArrayList<T>::incrArraySize()
     newArr[i] = oldArr[i]; //allocate new memory for the array
   }
   size =size*2;
-  //delete [] oldArr;
   delete [] array;
   array = newArr;
 }

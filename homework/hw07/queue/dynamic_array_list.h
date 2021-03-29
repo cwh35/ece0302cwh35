@@ -44,6 +44,9 @@ public:
   // set the value of the item at position using 0-based indexing
   void setEntry(std::size_t position, const T& newValue);
 
+  // funciton to increase the size of the array
+  void incrDataSize();
+
 private:
 
   T * data;
