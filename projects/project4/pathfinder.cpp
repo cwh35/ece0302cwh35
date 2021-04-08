@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
   assessed.resize(height); //resize the vector
   for(int i=0; i<height; i++)
   {
+    assessed[i].resize(width);
     for(int j=0; j<width; j++)
     {
        assessed[i][j] = false;
@@ -87,8 +88,9 @@ int main(int argc, char *argv[])
 
   //This variable stores whether or not there is a solution for the maze
   bool answer = false; 
+  
 
-  while(deque_test.isEmpty())
+  while(!deque_test.isEmpty())
   {
     newRow = deque_test.front().rows;
     newCol = deque_test.front().columns;
@@ -130,8 +132,21 @@ int main(int argc, char *argv[])
       deque_test.pushBack({newRow, newCol+1});
       assessed[newRow][newCol+1] = true;
     }
-
+  
   }
 
+    //write image to output
+    writeToFile(input, argv[2]);
+    if(answer)
+    {
+      std::cout<< "An answer was found!";
+      return EXIT_SUCCESS;
+    }
+    else
+    {
+      std::cout<< "No answer was found.";
+      return EXIT_FAILURE;
+    }
+    
 
 }
