@@ -34,7 +34,6 @@ public:
    */
   virtual void popBack() = 0;
 
-
   /** Returns the item at the back of the deque
    * throws std::runtime_error if the deque is empty
    */

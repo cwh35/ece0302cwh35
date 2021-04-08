@@ -47,7 +47,8 @@ public:
 
 private:
 
-  //TODO
+  std::size_t size;
+  Node<T> *head; //Points to the beginning of the linked list
   
 };
 
