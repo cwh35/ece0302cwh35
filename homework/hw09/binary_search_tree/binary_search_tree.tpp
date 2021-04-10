@@ -187,8 +187,7 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
     {
         return false;
     }
-    // case, item to delete has only a right child
-    else
+    else // case, item to delete has only a right child
     {
         if(curr->left == 0 && curr->right == 0)
         {
