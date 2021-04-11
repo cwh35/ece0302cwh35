@@ -101,7 +101,6 @@ template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::insert(
     const KeyType& key, const ItemType& item)
 {
-    // TODO 
 
     if(root == 0)
     {
@@ -177,19 +176,14 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
     Node<KeyType, ItemType>* curr_parent = 0;;
     search(key, curr, curr_parent);
 
-    // case one thing in the tree
-    if(curr = nullptr)
-    {
-        return false;
-    }
-    // case, found deleted item at leaf
+    
     if(curr->key != key)
     {
         return false;
     }
-    else // case, item to delete has only a right child
+    else 
     {
-        if(curr->left == 0 && curr->right == 0)
+        if(curr->left == 0 && curr->right == 0) // case - no children
         {
             if(curr != root)
             {
@@ -208,7 +202,7 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
             }
             free(curr);
         }
-        else if (curr->left && curr->right)  // case, item to delete has only a left child
+        else if (curr->left && curr->right) // case - two children
         {
             Node<KeyType, ItemType>* in = new Node<KeyType, ItemType>;
             inorder(curr, in, curr_parent);
@@ -216,7 +210,7 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
             remove(in->key);
             return true;
         }
-        else // case, item to delete has two children
+        else // case - one child
         {
             Node<KeyType, ItemType>* child = curr->left ? curr->left:curr->right;
             if(curr!=root)
@@ -236,7 +230,6 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
             }
             free(curr);
         }
-        
         
     }
     return false; // default should never get here
@@ -287,7 +280,7 @@ void BinarySearchTree<KeyType, ItemType>::treeSort(ItemType arr[], int size) {
     // check for duplicate items in the input array
     for (int i = 0; i < size-1; i++)
     {
-        for(int j = 1+j; j < size ; j++)
+        for(int j = i+1; j < size ; j++)
         {
             if(arr[i] == arr[j])
             {
