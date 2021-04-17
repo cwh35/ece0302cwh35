@@ -94,7 +94,7 @@ void HeapPriorityQueue<T>::remove()
             leftChild = 2*i + 1;
             rightChild = 2*i + 2;
 
-            if(leftChild < lst.getLength() && lst.getEntry(leftChild) > lst.getEntry(child)))
+            if(leftChild < lst.getLength() && lst.getEntry(leftChild) > lst.getEntry(child))
             {
                 child = leftChild;
             }
